@@ -1,0 +1,107 @@
+//paddle horizontal position
+var paddleX;
+
+//size of the paddle
+var paddleSize;
+
+//this is our score
+var score;
+
+
+//these are variables for the ball
+var ballX;
+var ballY;
+var ballSize;
+
+//speed
+var xSpeed;
+var ySpeed;
+
+function setup() {
+  // put setup code here
+  createCanvas(1250, 620);
+
+  //draw our rectangle from the center out
+  rectMode(CENTER);
+  paddleX = 600;
+
+  paddleSize = 600;
+
+  ballX = 50;
+  ballY = 100;
+
+  ballSize = 100;
+
+  xSpeed = 5;
+  ySpeed = -2;
+
+  score = 0;
+}
+
+function draw() {
+  // put drawing code here
+  background(50);
+
+  fill(255);
+  textSize(20);
+  text("Score: " + score, 50, 50);
+
+  fill(255, 0, 0);
+  rect(paddleX, 600, paddleSize, 10);
+
+  fill('orange');
+  ellipse(ballX, ballY, ballSize, ballSize);
+
+  //this moves the ball horizontall
+  ballX += xSpeed;
+  ballY += ySpeed;
+
+  //bouncing off the left and right of the screen
+  if ((ballX > (1250-ballSize/2)) || (ballX < (ballSize/2))){
+  	xSpeed = -xSpeed;
+  }
+
+  //bouncing off the top of the screen
+  if (ballY < ballSize/2){
+  	ySpeed = - ySpeed;
+  }
+
+  //bounce off the paddle
+  //if our y position is near the bottom of the screen
+  //and the x position is to the left of the paddle edge
+  //and the x position is to the right of the right paddle edge
+  if ((ballY > (590-ballSize/2)) && (ballX > (paddleX - paddleSize/2)) && 
+  	(ballX < (paddleX+paddleSize/2))){
+  	ySpeed = -ySpeed;
+
+    score += 1;
+  }
+
+
+  //this is a cheating way to end the game
+  //could create a boolean to 'end' the game
+  //and then use a keypress to restart the game
+  if (ballY > 700){
+  	  fill(255, 0, 0);
+  	  textSize(50);
+  	  text("GAME OVER, YOU LOSE", 600, 300)
+  	  score = 0;
+  	  ballY = 800;
+  	  ballX = 600;
+  	  ySpeed = 0;
+  	  xSpeed = 0;
+  }
+}
+
+function keyPressed(){
+	if (keyCode === LEFT_ARROW){
+		//this will move my platform left
+		///console.log('left');
+		paddleX -= 50;
+	}
+	else if(keyCode === RIGHT_ARROW){
+		//this will move my platform right
+		//console.log('right');
+		paddleX += 50;
+	}
+}
