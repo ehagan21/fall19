@@ -1,0 +1,54 @@
+var bXloc =[];
+var bYloc = [];
+
+var xSpeed = [];
+var ySpeed = [];
+
+var numB = 1;
+
+function setup() {
+  // put setup code here
+  createCanvas(800, 500);
+
+  for(var i=0; i<numB; i++){
+  	bXloc[i] = random(50, 700);
+  	bYloc[i] = random(100, 400);
+  	xSpeed[i] = random(-50, 50);
+  	ySpeed[i] = random(-50, 50);
+  }
+}
+
+function draw() {
+  // put drawing code here
+  background(50, 10);
+
+  for (var i=0; i<numB; i++){
+  	fill('red');
+  	ellipse(bXloc[i], bYloc[i], 20, 20);
+  }
+
+  for (var i=0; i<numB; i++){
+  	 bXloc[i] = bXloc[i] + xSpeed[i];
+  	 bYloc[i] = bYloc[i] + ySpeed[i];	 
+  	 //bXloc[i] += xSpeed[i];
+
+  	 //horizontal bounce
+  	 if ((bXloc[i] > 800) || (bXloc[i] < 0)){
+  	 	xSpeed[i] = -xSpeed[i];
+  	 }
+
+  	 //vertical bounce
+  	 if ((bYloc[i] > 500) || (bYloc[i] < 0)){
+  	 	ySpeed[i] = -ySpeed[i];
+  	 }
+  }
+}
+
+function mousePressed(){
+	numB = numB + 1;
+	bXloc.push(mouseX);
+	bYloc.push(mouseY);
+	xSpeed.push(random(-5, 5));
+	ySpeed.push(random(-5, 5));
+}
+
